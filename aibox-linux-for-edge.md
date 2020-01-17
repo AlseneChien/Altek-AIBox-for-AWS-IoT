@@ -23,26 +23,14 @@ Run a simple python sample on Altek AIBox device running embedded Linux by Yocto
 
 **About this document**
 
-This document describes how to connect Altek AIBox device running embedded Linux by Yocto with Azure IoT Edge Runtime pre-installed and Device Management. This multi-step process includes:
-
--   Configuring Azure IoT Hub
--   Registering your IoT device
--   Build and Deploy client component to test device management capability 
+This document describes how to connect Altek AIBox device running embedded Linux by Yocto with AWS GreenGrass and KVS support. 
 
 <a name="Prerequisites"></a>
 # Step 1: Prerequisites
 
 You should have the following items ready before beginning the process:
 
--   [Prepare your development environment][setup-devbox-linux]
--   [Setup your IoT hub](https://account.windowsazure.com/signup?offer=ms-azr-0044p)
--   [Provision your device and get its credentials][lnk-manage-iot-hub]
--   [Sign up to IOT Hub](https://account.windowsazure.com/signup?offer=ms-azr-0044p)
--   [Add the Edge Device](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux)
--   [Add the Edge Modules](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module)
--   [Altek AIBox device](https://store.altek.com.tw/qualcomm/product/ai-box-altek#TECH-NODE)
--   x1~x4 IPCam, compatible with Onvif profile-s and RTSP
--   A router for wired/wireless connection to internet
+To Be Update for AWS GreenGrass and KVS need
 
 <a name="PrepareDevice"></a>
 # Step 2: Prepare your Device
@@ -101,28 +89,6 @@ Once ssh is available, you can use "ifconfig" to check network configurations
 
 ![](./images/ifconfig.png)
 
-#### 2.1.6 Update Azure IoTEdge Device connect string via SSH
-
-AIBox support Azure Iot Hub. It can be one Azure Iot Edge Device.
-If you already [create your own connect string for Auzre IotEdge Device](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module), you may use below shell cmd via SSH to update connect string into device.
-
-```
-sed -i '/ device_connection_string: /c\  device_connection_string: "HostName={hub_name}.azure-devices.net;DeviceId=MyEdgeDeviceName;SharedAccessKey={key}"' /etc/iotedge/config.yaml
-```
-
-Then, you can use below cmd to restart iotedge.service
-
-```
-systemctl restart iotedge.service
-```
-
-Wait for several minutes to deploy modules from Azure. You can check status by below cmd via SSH
-
-```
-docker ps
-```
-![](./images/docker_ps.png)
-
 
 ### 2.2 Connect your IPCamera to Wi-Fi AP or ethernet router.
 
@@ -178,7 +144,6 @@ To Be Updated
 
 To Be Updated
 
-  
 
 <a name="NextSteps"></a>
 # Step 4: Next steps
