@@ -1,14 +1,14 @@
 
-How to deploy AI model to AIBox by Azure
+How to deploy AI model to AIBox by AWS
 ===
 ---
 
 # Table of Contents
 
 -   [Introduction](#Introduction)
--   [Part 1: Config Azure Iot Hub](#part_1)
--   [Part 2: Create your IotEdge Module for AIBox](#part_2)
--   [Part 3: Config your IoT Edge Device](#part_3)
+-   [Part 1: Config ...](#part_1)
+-   [Part 2: Create your ... for AIBox](#part_2)
+-   [Part 3: Config your ... Device](#part_3)
 -   [Part 4: Deploy to your AIBox](#part_4)
 -   [Part 5: Tutorials and Examples](#part_5)
 
@@ -18,147 +18,43 @@ How to deploy AI model to AIBox by Azure
 
 **About this document**
 
-This document describes how to cover your AI Models, then deploy models to your AIBox via Azure Iot Hub.
+This document describes how to cover your AI Models, then deploy models to your AIBox via AWS GreenGrass.
 
 <a name="part_1"></a>
-# Part 1: Config Azure Iot Hub
+# Part 1: Config ...
 
-## 1.1 Active your Azure account
+## 1.1 Active your AWS account
 
-AIBox can be configured to work with Microsoft Azure IoT resources. To get started, you will need a new or existing Azure account. You can create a free account by visiting [Azure link](https://azure.microsoft.com/free)
+AIBox can be configured to work with AWS. To get started, you will need a new or existing AWS account. You can create a free account by visiting [AWS link](https://aws.amazon.com/)
 
-## 1.2 Setup IoT Hub and IoTEdge Device
+## 1.2 Setup IoT ... and ... Device
 
-Follow steps to [create your IoT Hub ](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-through-portal) in advances
-
-In the Azure portal, IoT Edge devices would be created and managed separately from devices that connect to your IoT hub but aren't edge-enabled. Follow below steps for configurations
-
-- Sign in to the [Azure portal](https://portal.azure.com) and navigate to your IoT hub.
-
-![](./images/Azure_login.png)
-
-- Select IoT Edge from the menu.
-
-![](./images/Azure_Config_1.png)
-
-- Select Add an IoT Edge device
-
-![](./images/Azure_Config_2.png)
-
-- Provide a descriptive device ID. Use the default settings to auto-generate authentication keys and connect the new device to your hub.
-- Select Save.
-
-![](./images/Azure_Config_3.png)
-<a name="save_conectStr"></a>
-- You will have one IoT Edge Devices Connect String (Primary connection String) for your AIBox
-
-![](./images/Azure_Config_4.png)
+To Be Updated
 
 <a name="part_2"></a>
-# Part 2: Create your IotEdge Module for AIBox
+# Part 2: Create your ... Module for AIBox
 
-You have to create one edge device Module, running at AIBox. Please refer to [link](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-python-module#create-a-container-registry) for detail. 
+To Be Updated
 
-May need register [docker hub](https://hub.docker.com/) account and public your container at docker hub (ex.  Account/folder:tagName)
-
-Follows are some sample code by python for AIBox
-- Model Deployment
-```
-shutil.copy("/app/Data/dlcFiles/ModelConfig_1.txt","/app/vam_model_folder/ModelConfig_1.txt")
-                        shutil.copy("/app/Data/dlcFiles/ModelConfig_2.txt","/app/vam_model_folder/ModelConfig_2.txt")
-                        copy_tree("/app/Data/dlcFiles/altekDLC1","/app/vam_model_folder/altekDLC1")
-                        copy_tree("/app/Data/dlcFiles/altekDLC2","/app/vam_model_folder/altekDLC2")
-```
-
-- Receive Inference result by RTSP Client
-```
-cmd = ['gst-launch-1.0 ', ' -q ', ' rtspsrc ', ' location=' + result_src, ' protocols=tcp ',                                
-       ' ! ', " application/x-rtp, media=application ", ' ! ', ' fakesink ', ' dump=true ']                                 
-cmd = ''.join(cmd)                                                                                                                                                                                                                              
-try:                                                                                                                        
-    self._sub_proc = subprocess.Popen(                                                                                      
-    cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, universal_newlines=False)                                                                                                                               
-    for _ in repeat(None):                                                                                                  
-        line = self._sub_proc.stdout.readline()                                                                                                                                                                                         
-        l_str = line[70:-1]                                                                                                 
-        l_str = l_str.decode('utf-8')                                                                                       
-        l_str = l_str.strip()                                                                                               
-                                                                                                                    
-        if ":[" in self._json_str and "] }" in self._json_str + l_str:                                                      
-            # Only yield if objects are present in the inferences                                                           
-            self._json_str = self._json_str + l_str                                                                         
-            s_idx = self._json_str.index('{ "')                                                                             
-            e_idx = self._json_str.index("] }") + 3                                                                         
-            self._json_str = self._json_str[s_idx:e_idx]                                                                    
-            result = self._get_inference_result()                                                                           
-            self._json_str = ""                                                                                             
-            yield result                                                                                                    
-        elif ":[" not in self._json_str and '{ "' in self._json_str and " }" in self._json_str + 'l_str':                   
-            self._json_str = ""                                                                                             
-        else:                                                                                                               
-            self._json_str = self._json_str + l_str                                                                         
-        pass                                                                                                                
-except subprocess.CalledProcessError as e:                                                                                  
-    print(e)
+- Sample code
 
 ```
+
+```
+
 
 
 <a name="part_3"></a>
-# Part 3: Config your IoT Edge Device
+# Part 3: Config your ...
 
-1.	Select your IoT edge device, click on Set modules
-
-![](./images/Deploy_Config_1.png)
-
-2. At Deployment modules section, click on Add => IoT Edge Module.
-
-![](./images/Deploy_Config_2.png)
-
-3. Fill out following details, and click save.
-
-- Image URI: Account/folder:tagName
-- Container Create Options: Redirect model files to path that they are really located at.
-```
-{
-  "HostConfig": {
-    "Binds": [
-      "/data/misc/camera:/app/vam_model_folder"
-    ],
-    "NetworkMode": "host"
-  },
-  "NetworkingConfig": {
-    "EndpointsConfig": {
-      "host": {}
-    }
-  }
-} 
-
-```
-
-![](./images/Deploy_Config_3.png)
-
-
-4.	Press Next at the 1st Add Modules (optional) tab in Set module page.
-
-5.	Press Next at the 2nd Specify Routes (optional) tab to remains unchanged.
-
-6. At the 3rd Review Deployment tab, press Submit
-
-7. You will see there are 3 modules as below.
-
-![](./images/Deploy_Config_4.png)
+To Be Updated
 
 <a name="part_4"></a>
 # Part 4: Deploy to your AIBox
 
 You can follow below steps to deploy modules to AIBox
 
-1. Refer to [Part 1](#part_1) to [get connection string](#save_conectStr)
-
-2. Refer to [Quick Start Guiding for AIBox By Azure](./aibox-linux-for-edge.md) to setup network configuration of AIBox. Remember save your display out config before rebooting AIBox.
-
-3.  Update connect string via ssh. Then, reboot device.
+To Be Updated
 
 <a name="part_5"></a>
 # Part 5: Tutorials and Examples
@@ -211,43 +107,19 @@ Remember to click "Save". After saving configuration, AIBox will reconnect camer
 
 ![](./images/TVOut_config2.png)
 
-## 5.4 Update connect string via SSH
-If you already complete [above network settings](#part_5_2), you can enter linux shell via SSH.
-Information for SSH access will be below
--  IP of SoftAP at AIBox: 192.168.143.1
--  Account: root
--  Password: oelinux123
-
-Terminal, like putty, will be available for ssh access
-
- ![](./images/putty.png)
-
-## Update conenct string via SSH
-
-You have to use below shell cmd via SSH to update connect string into device.
-
-```
-sed -i '/ device_connection_string: /c\  device_connection_string: "HostName={hub_name}.azure-devices.net;DeviceId=MyEdgeDeviceName;SharedAccessKey={key}"' /etc/iotedge/config.yaml
-```
-
-Then, use below cmd to restart iotedge service.
-
-```
-systemctl restart iotedge.service
-```
+## 5.4 Update ....
+To Be Updated
 
 ## Wait for your moduel deployment
 
-Please wait for minutes, depending on internet througput, to complete modules download from Azure to AIBox.
+Please wait for minutes, depending on internet througput, to complete modules download from AWS to AIBox.
 
 You can check by below cmd via SSH
 
 ```
-docker ps
-```
-There would be 3 containers, edgeAgent, edgeHub, and your AIBox Module, running inside docker.
 
-![](./images/docker_ps.png)
+```
+
 
 ## 5.5 Inference running at AIBox
 
@@ -259,35 +131,4 @@ If IPCamera connection is ready, NETWORK LED status will show as below. And vide
 
 If IPCamera connection is not ready, refer to ["5.3 Config your IPCamera via Web UI"](#part_5_3_2) to connect IPCameras and AIBox
 
-Then, force to restart docker service via SSH.
-```
-systemctl restart iotedge.service
-```
-
-Wait for iot edge runtime ready to start inference. You can check status by below cmd via SSH
-```
-docker ps
-```
-
-![](./images/docker_ps.png)
-
-And also can check detail logs for each containers by below cmds via SSH
-
-```
-docker logs -f edgeAgent
-docker logs -f edgeHub
-docker logs -f your_AIBox_Module
-```
-
-Take Altek AIBOXTest Module for example
-Metadata will be streaming out continually to IoT Hub. And you can get inference result by docker logs
-
-![](./images/logbyAIbox.png)
-
-Or mointor metadata from cloud via VS Code
-
-![](./images/VSCode.png)
-
-HDMI display is also available to streaming out with bounding box UI.
-
-![](./images/hdmiout.png)
+To Be Updated
