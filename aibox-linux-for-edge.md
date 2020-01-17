@@ -13,7 +13,7 @@ Run a simple python sample on Altek AIBox device running embedded Linux by Yocto
 -   [Introduction](#Introduction)
 -   [Step 1: Prerequisites](#Prerequisites)
 -   [Step 2: Prepare your Device](#PrepareDevice)
--   [Step 3: Manual Test for Azure IoT Edge on device](#Manual)
+-   [Step 3: Manual Test for AWS IoT Device](#Manual)
 -   [Step 4: Next Steps](#NextSteps)
 
 
@@ -164,53 +164,17 @@ Pinghole reset button as below. Network configuration will be reset
 ![](./images/pinghole.png)
 
 <a name="Manual"></a>
-# Step 3: Manual Test for Azure IoT Edge on device
+# Step 3: Manual Test for AWS IoT Device
 
-This section walks you through the test to be performed on the Edge devices running the Linux operating system such that it can qualify for Azure IoT Edge certification.
+This section walks you through the test to be performed on the IoT devices running the Linux operating system such that it can qualify for AWS certification.
 
-<a name="Step-3-1-IoTEdgeRunTime"></a>
-## 3.1 Edge RuntimeEnabled (Mandatory)
-
-**Details of the requirement:**
-
-The following components come pre-installed or at the point of distribution on the device to customer(s):
-
--   Azure IoT Edge Security Daemon
--   Daemon configuration file
-    ontainer management system  A version of `hsmlib` 
-
-*Edge Runtime Enabled:*
-
-**Check the iotedge daemon command:** 
-
-Open the command prompt (Refer to ["2.1.5 Confirm network configuration by Linux shell over SSH"](#2_1_5_ToSSH)) on your IoT Edge device , confirm that the Azure IoT edge Daemon is under running state
-
-    systemctl status iotedge
-
- ![](./images/Capture.png)
-
-Open the command prompt on your IoT Edge device, confirm that the module deployed from the cloud is running on your IoT Edge device
-
-    sudo iotedge list
-
- ![](./images/iotedgedaemon.png) 
-
-On the device details page of the Azure, you should see the runtime modules - edgeAgent, edgeHub and tempSensor modueles are under running status
-
- ![](./images/tempSensor.png)
-
-<a name="Step-3-2-DeviceManagement"></a>
-## 3.2 Device Management (Optional)
-
-**Pre-requisites:** Device Connectivity.
-
-**Description:** A device that can perform basic device management operations (Reboot and Firmware update) triggered by messages from IoT Hub.
-
-## 3.2.1 Firmware Update 
+<a name="Step-3-1-AWS-IoT-Core"></a>
+## 3.1 AWS IoT Core
 
 To Be Updated
 
-## 3.2.2 Reboot 
+<a name="Step-3-2-AWS-KVS"></a>
+## 3.2 AWS KVS 
 
 To Be Updated
 

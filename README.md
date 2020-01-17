@@ -45,6 +45,6 @@ With Linux running natively and industry design best practices already applied, 
 - Status LED: 1 x with a RG 2 color LED (Red for FW update, Green for normal, Orange for configure network)
 
 ## Software Document
-- [Quick Start Guiding for AIBox By Azure](./aibox-linux-for-edge.md)
+- [Quick Start Guiding for AIBox By AWS](./aibox-linux-for-edge.md)
 - [How to have AI model running at AIBox](./AI_Model_to_AIBox.md)
-- [Deploy AI by Azure](./Deploy_AI_By_Azure.md)
+- [Deploy AI by Azure](./Deploy_AI_By_AWS.md)
