@@ -47,4 +47,4 @@ With Linux running natively and industry design best practices already applied, 
 ## Software Document
 - [Quick Start Guiding for AIBox By AWS](./aibox-linux-for-edge.md)
 - [How to have AI model running at AIBox](./AI_Model_to_AIBox.md)
-- [Deploy AI by Azure](./Deploy_AI_By_AWS.md)
+- [Deploy AI by AWS](./Deploy_AI_By_AWS.md)
