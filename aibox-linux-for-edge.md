@@ -13,7 +13,7 @@ Run a simple python sample on Altek AIBox device running embedded Linux by Yocto
 -   [Introduction](#Introduction)
 -   [Step 1: Prerequisites](#Prerequisites)
 -   [Step 2: Prepare your Device](#PrepareDevice)
--   [Step 3: Manual Test for AWS IoT Device](#Manual)
+-   [Step 3: Manual Test for AWS KVS](#Manual)
 -   [Step 4: Next Steps](#NextSteps)
 
 
@@ -28,9 +28,10 @@ This document describes how to connect Altek AIBox device running embedded Linux
 <a name="Prerequisites"></a>
 # Step 1: Prerequisites
 
-You should have the following items ready before beginning the process:
+Refer to below link to setup and add the permission for a new IAM user.
+https://docs.aws.amazon.com/en_us/IAM/latest/UserGuide/getting-started_create-admin-group.html
 
-To Be Update for AWS GreenGrass and KVS need
+Creating an Administrator IAM User and Group (Console)
 
 <a name="PrepareDevice"></a>
 # Step 2: Prepare your Device
@@ -44,6 +45,7 @@ Before starting setup, you may refer to below LED indicator/ Button scenarios at
 
 ## What you will do for network configuration
 
+<a name="2_1_Network_setup"></a>
 ### 2.1 Network setup for AIBox 
 
 #### 2.1.1 Connect your AIBox with PC via Wi-Fi
@@ -89,7 +91,7 @@ Once ssh is available, you can use "ifconfig" to check network configurations
 
 ![](./images/ifconfig.png)
 
-
+<a name="2_2_ConfigIPCam_to_WifiAP"></a>
 ### 2.2 Connect your IPCamera to Wi-Fi AP or ethernet router.
 
 You may prepare x1~x4 IPCameras, compatible with OnVIF + RTSP protocol. 
@@ -103,7 +105,7 @@ Following cameras are validated with AIBox for your reference.
 - Axis: M3007, M3045V
 - Vivotek: CC8160
 
-
+<a name="2_3_ConfigIPCam_via_WebUI"></a>
 ### 2.3 Config your IPCamera via Web UI
 At IPC preview/configure webpage, all Onvif IPCs are scanned and listed. And you can press "Refresh“ to scan again.
 
@@ -113,6 +115,7 @@ You have to input username/password for Onvif IPCamera  to login. To simplify op
 
  ![](./images/ap_webpage5.png)
 
+<a name="2_4_ConfigDisplay_via_WebUI"></a>
  ### 2.4 Config your display out via Web UI
 If you would like have start video analytic or HDMI display, you have to config your display out via Web UI
 
@@ -130,17 +133,68 @@ Pinghole reset button as below. Network configuration will be reset
 ![](./images/pinghole.png)
 
 <a name="Manual"></a>
-# Step 3: Manual Test for AWS IoT Device
+# Step 3: Manual Test for AWS KVS
 
-This section walks you through the test to be performed on the IoT devices running the Linux operating system such that it can qualify for AWS certification.
+This section walks you through the test to be performed on the IoT devices running the Linux operating system such that it can qualify for AWS KVS.
 
-<a name="Step-3-1-AWS-IoT-Core"></a>
-## 3.1 AWS IoT Core
+<a name="Step-3-1-AWS-KVS"></a>
+## 3.1 AWS Kinesis Video Streams
 
-To Be Updated
+Before starting KVS, ensure you have config your AIBox with one internet avaiable Wi-Fi AP, referring to [2.1](#2_1_Network_setup), and one IPCamera at least has been configed as well with AIBox, referring to [2.2](#2_2_ConfigIPCam_to_WifiAP) / [2.3](#2_3_ConfigIPCam_via_WebUI) / [2.4](#2_4_ConfigDisplay_via_WebUI)
 
-<a name="Step-3-2-AWS-KVS"></a>
-## 3.2 AWS KVS 
+### 3.1.1 Config and Start/Stop KVS
+Login [AWS](https://aws.amazon.com/) first.
+
+Then. at AWS Management Console, serach service "IAM", then select [user, whom you created]((#Prerequisites))
+
+You can download and keep IAM access key as below
+![](./images/AWS_IAM.png)
+
+Refer to [2.1.5](#2_1_5_ToSSH), follow below steps to config your AIBox over ssh
+
+- Enebale data flow to RTSP
+```
+setprop persist.fDataToRtsp.on 1
+```
+- Check your key for IAM by below cmd 
+Then, comparing AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, with your key 
+```
+cat /aws/amazon_kvs/aws_credential.json
+```
+- Please manually edit AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_DEFAULT_REGION over ssh as yours
+```
+vi /aws/amazon_kvs/aws_credential.json
+```
+
+- Reboot device to restart KVS
+```
+reboot -f
+```
+
+- You can start / stop KVS by below 2 cmds over ssh after rebooting. Supposedly, you can redirect one camera streaming to KVS
+```
+python aws/amazon_kvs/altek_kvsmgr.py start 1 stream20191024 &
+```
+![](./images/AWS_KVS_StartConfig.png)
+
+```
+python aws/amazon_kvs/altek_kvsmgr.py stop 1 &
+```
+![](./images/AWS_KVS_StopConfig.png)
+
+### 3.1.2 Watch preview via KVS
+- At AWS Management Console, serach and select service, "Kinesis Video Streams"
+- Select stream, which you created. (ex. Stream20191024)
+
+![](./images/AWS_KVS_SelectStream.png)
+
+- Expand Media Player to view streaming
+![](./images/AWS_KVS_ViewPreview.png)
+
+<a name="Step-3-2-AWS-IoT-Core"></a>
+## 3.2 AWS IoT Core
+
+
 
 To Be Updated
 
