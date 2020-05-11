@@ -136,9 +136,9 @@ If you already [connect your AIBox with IPCameras](./aibox-linux-for-edge.md), i
 
 ## 2.2 Deploy to AIBox and star running
 
-### Deploy by Azure Iot Hub
+### Deploy by AWS Greengrass
 
-AIBox is compatible with Azure Iot Hub. It is allowable to deploy AI models to AIBox via Azure Cloud. You can refer to [Deploy AI by Azure](./Deploy_AI_By_Azure.md)
+To Be Continue
 
 
 
